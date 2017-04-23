@@ -7,8 +7,10 @@
     body {
       overflow: hidden;
       margin: 0;
+      background-color: #000;
     }
     canvas {
+      cursor: pointer;
       display: block;
       margin: 50px auto;
     }
@@ -25,9 +27,11 @@
   var lifeArray = []
   var pixelSize = 10
   var bins = 0
-  var colors = [[231, 76, 60], [52, 152, 219]]
+  var colors = [[255, 0, 0]]
   var canvasWidth = 720
-  var canvasHeight = 480
+  var canvasHeight = 300
+  var bgColor = '#000'
+  var soundbarColor = [255,255,255]
 
   function drawGrid() {
     //stroke(189, 195, 199)
@@ -36,18 +40,18 @@
       for (var x = 0; x < canvasWidth; x+=pixelSize) {
         var isAlive = false//random() >= 0.5
         //var _color = colors[Math.floor(random() * colors.length)]
-        if (isAlive) {
-          fill.apply(this, _color)
-        } else {
-          fill(255)
-        }
+        // if (isAlive) {
+        //   fill.apply(this, _color)
+        // } else {
+        //   fill(bgColor)
+        // }
         //rect(x, y, pixelSize, pixelSize)
         _array.push({
           isAlive: isAlive,
           isSoundbar: false,
           x: x,
           y: y,
-          color: [231, 76, 60]
+          color: colors[0]
         })
       }
       lifeArray.push(_array)
@@ -77,7 +81,7 @@
   }
 
   function setup() {
-    background(236, 240, 241)
+    background(0)
     // get bins
     var n = 1
     while (bins < canvasWidth / pixelSize) {
@@ -90,18 +94,18 @@
     song.pause()
 
     createCanvas(canvasWidth, canvasHeight)
-    stroke(255)
+    stroke(bgColor)
     drawGrid()
     frameRate(24)
     noLoop()
     seedLife()
-    generatePulsar(58, 1)
+    generatePulsar(55, 1)
   }
 
   function draw() {
+    background("#000")
     var waveform = fft.waveform()
     var bottomline = lifeArray.length - 1
-    var midlineColor = [44, 62, 80]
 
     for (var i = 0; i < lifeArray[bottomline].length; i++) {
       var maxAmp = Math.round(lifeArray[bottomline].length / 4)
@@ -118,7 +122,7 @@
 
       for (var j = 0; j <= maxAmp; j++) {
         if (amplitude >= j) {
-          lifeArray[bottomline - j][i].color = midlineColor
+          lifeArray[bottomline - j][i].color = soundbarColor
           lifeArray[bottomline - j][i].isSoundbar = true
           lifeArray[bottomline - j][i].isAlive = true
         } else if (lifeArray[bottomline - j][i].isSoundbar) {
@@ -153,6 +157,7 @@
         } else {
           if (liveNeighbors === 3 || chance) {
             _lifeArray[y][x].isAlive = true
+            _lifeArray[y][x].color = colors[Math.floor(random() * colors.length)]
           }
         }
       }
@@ -169,7 +174,7 @@
         if (cell.isAlive) {
           fill.apply(this, cell.color)
         } else {
-          fill(255)
+          fill(bgColor)
         }
         rect(cell.x, cell.y, pixelSize, pixelSize)
       }

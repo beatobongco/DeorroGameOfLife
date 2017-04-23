@@ -8,7 +8,7 @@ function _plot(x, y, color) {
 
 function seedLife() {
   function rplot(x, y) {
-    _plot(x + 17, y + 7)
+    _plot(x + 1, y)
   }
   //D
   rplot(1, 1)
