@@ -2,13 +2,17 @@
 <html>
 <head>
   <title>Deorro's Game of Life</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
   <style type="text/css">
     body {
       overflow: hidden;
       margin: 0;
     }
+    canvas {
+      display: block;
+      margin: 50px auto;
+    }
   </style>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.sound.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
@@ -73,6 +77,7 @@
   }
 
   function setup() {
+    background(236, 240, 241)
     // get bins
     var n = 1
     while (bins < canvasWidth / pixelSize) {
@@ -90,26 +95,20 @@
     frameRate(24)
     noLoop()
     seedLife()
+    generatePulsar(58, 1)
   }
 
   function draw() {
-    background(236, 240, 241)
-    if (firstRun) {
-      firstRun = false
-      drawGeneration()
-      return
-    }
     var waveform = fft.waveform()
     var bottomline = lifeArray.length - 1
     var midlineColor = [44, 62, 80]
 
     for (var i = 0; i < lifeArray[bottomline].length; i++) {
-      var maxAmp = Math.round(lifeArray[bottomline].length / 3)
+      var maxAmp = Math.round(lifeArray[bottomline].length / 4)
       var amplitude = waveform[i] * maxAmp
 
-      if (waveform[i] > .5) {
+      if (waveform[i] > .9) {
         // generate some cool stuff here
-        console.log("Generated glider")
         generateUpGlider(i + 2, bottomline - j - 2)
       }
 
@@ -122,12 +121,18 @@
           lifeArray[bottomline - j][i].color = midlineColor
           lifeArray[bottomline - j][i].isSoundbar = true
           lifeArray[bottomline - j][i].isAlive = true
-        } else {
+        } else if (lifeArray[bottomline - j][i].isSoundbar) {
           lifeArray[bottomline - j][i].color = colors[0]
           lifeArray[bottomline - j][i].isSoundbar = false
           lifeArray[bottomline - j][i].isAlive = false
         }
       }
+    }
+
+    if (firstRun) {
+      firstRun = false
+      drawGeneration()
+      return
     }
 
     // check state change
