@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Deorro's Game of Life</title>
+  <style type="text/css">
+    body {
+      overflow: hidden;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.sound.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script type="text/javascript" src="static/js/seed.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  var song, analyzer
+  var firstRun = true
+  var lifeArray = []
+  var pixelSize = 10
+  var bins = 0
+  var colors = [[231, 76, 60], [52, 152, 219]]
+  var canvasWidth = 720
+  var canvasHeight = 480
+
+  function drawGrid() {
+    //stroke(189, 195, 199)
+    for (var y = 0; y < canvasHeight; y+=pixelSize) {
+      var _array = []
+      for (var x = 0; x < canvasWidth; x+=pixelSize) {
+        var isAlive = false//random() >= 0.5
+        //var _color = colors[Math.floor(random() * colors.length)]
+        if (isAlive) {
+          fill.apply(this, _color)
+        } else {
+          fill(255)
+        }
+        //rect(x, y, pixelSize, pixelSize)
+        _array.push({
+          isAlive: isAlive,
+          isSoundbar: false,
+          x: x,
+          y: y,
+          color: [231, 76, 60]
+        })
+      }
+      lifeArray.push(_array)
+    }
+  }
+
+  function checkNeighbors(x, y) {
+    // returns number of alive
+    alive = 0
+    neighbors = [[x+1, y], [x-1, y], [x, y+1], [x, y-1],
+                 [x+1, y+1], [x-1, y-1], [x+1, y-1], [x-1, y+1]]
+
+    for (var i = 0; i < neighbors.length; i++) {
+      try {
+        if (lifeArray[neighbors[i][1]][neighbors[i][0]].isAlive) {
+          alive+=1
+        }
+      } catch (err) {
+        // pass
+      }
+    }
+    return alive
+  }
+
+  function preload() {
+    song = loadSound('static/audio/deorro.mp3')
+  }
+
+  function setup() {
+    // get bins
+    var n = 1
+    while (bins < canvasWidth / pixelSize) {
+      bins = 2**n
+      n++
+    }
+    fft = new p5.FFT(0.8, bins)
+
+    song.jump(120)
+    song.pause()
+
+    createCanvas(canvasWidth, canvasHeight)
+    stroke(255)
+    drawGrid()
+    frameRate(24)
+    noLoop()
+    seedLife()
+  }
+
+  function draw() {
+    background(236, 240, 241)
+    if (firstRun) {
+      firstRun = false
+      drawGeneration()
+      return
+    }
+    var waveform = fft.waveform()
+    var bottomline = lifeArray.length - 1
+    var midlineColor = [44, 62, 80]
+
+    for (var i = 0; i < lifeArray[bottomline].length; i++) {
+      var maxAmp = Math.round(lifeArray[bottomline].length / 3)
+      var amplitude = waveform[i] * maxAmp
+
+      if (waveform[i] > .5) {
+        // generate some cool stuff here
+        console.log("Generated glider")
+        generateUpGlider(i + 2, bottomline - j - 2)
+      }
+
+      if (amplitude < 0) {
+        continue
+      }
+
+      for (var j = 0; j <= maxAmp; j++) {
+        if (amplitude >= j) {
+          lifeArray[bottomline - j][i].color = midlineColor
+          lifeArray[bottomline - j][i].isSoundbar = true
+          lifeArray[bottomline - j][i].isAlive = true
+        } else {
+          lifeArray[bottomline - j][i].color = colors[0]
+          lifeArray[bottomline - j][i].isSoundbar = false
+          lifeArray[bottomline - j][i].isAlive = false
+        }
+      }
+    }
+
+    // check state change
+    _lifeArray = _.cloneDeep(lifeArray)
+
+    for (var y = 0; y < lifeArray.length; y++) {
+      for (var x = 0; x < lifeArray[y].length; x++) {
+        var cell = lifeArray[y][x]
+        var liveNeighbors = checkNeighbors(x, y)
+        var chance = false //Math.random() < .001
+        if (cell.isSoundbar) {
+          continue
+        }
+        if (cell.isAlive) {
+          if (!(liveNeighbors === 2 || liveNeighbors === 3 || chance)) {
+            _lifeArray[y][x].isAlive = false
+          }
+        } else {
+          if (liveNeighbors === 3 || chance) {
+            _lifeArray[y][x].isAlive = true
+          }
+        }
+      }
+    }
+
+    lifeArray = _lifeArray
+    drawGeneration()
+  }
+
+  function drawGeneration() {
+    for (var y = 0; y < lifeArray.length; y++) {
+      for (var x = 0; x < lifeArray[y].length; x++) {
+        var cell = lifeArray[y][x]
+        if (cell.isAlive) {
+          fill.apply(this, cell.color)
+        } else {
+          fill(255)
+        }
+        rect(cell.x, cell.y, pixelSize, pixelSize)
+      }
+    }
+  }
+
+  function mousePressed() {
+    if (song.isPlaying() ) {
+      song.pause()
+      noLoop()
+    } else {
+      song.play()
+      loop()
+    }
+  }
+</script>
+</body>
+</html>
