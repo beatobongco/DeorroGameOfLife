@@ -1,10 +1,10 @@
 var song, analyzer, lifeArray, cnv
 var firstRun = true
-var pixelSize = 20
+var pixelSize = 10
 var bins = 0
 var aliveColor = '#ff0000'
-var canvasWidth = 1200
-var canvasHeight = 630
+var canvasWidth = 720
+var canvasHeight = 360
 var bgColor = '#000'
 var soundbarColor = '#fff'
 var fps = 24
