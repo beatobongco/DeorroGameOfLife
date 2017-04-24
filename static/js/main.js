@@ -199,9 +199,11 @@ function drawGeneration() {
 
 function togglePlay() {
   if (song.isPlaying()) {
+    document.getElementById('instructions').classList.remove('hidden')
     song.pause()
     noLoop()
   } else {
+    document.getElementById('instructions').classList.add('hidden')
     song.play()
     loop()
   }
@@ -221,6 +223,6 @@ function mousePressed() {
 
 function keyPressed() {
   if (keyCode === 32) {
-    play()
+    togglePlay()
   }
 }
