@@ -74,6 +74,11 @@
     song = loadSound('static/audio/deorro.mp3')
   }
 
+  function reset() {
+    drawGrid()
+    seedLife()
+  }
+
   function setup() {
     background(0)
     // get bins
@@ -83,14 +88,12 @@
       n++
     }
     fft = new p5.FFT(0.8, bins)
-
+    song.onended(reset)
     createCanvas(canvasWidth, canvasHeight)
     stroke(bgColor)
-    drawGrid()
     frameRate(24)
+    reset()
     noLoop()
-    seedLife()
-    generatePulsar(55, 1)
   }
 
   function draw() {

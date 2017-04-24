@@ -293,6 +293,9 @@ function seedLife() {
   rplot(27, 26)
   rplot(28, 26)
   rplot(29, 26)
+
+  //PULSAR
+  generatePulsar(55, 1)
 }
 
 function generateUpGlider(x, y) {
