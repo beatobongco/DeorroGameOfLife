@@ -53,6 +53,12 @@ function preload() {
 
 function setup() {
   document.querySelector('.hidden').classList.remove('hidden')
+  if (windowWidth < canvasWidth) {
+    canvasWidth = 300
+    canvasHeight = 150
+    pixelSize = 5
+    document.querySelector('canvas').classList.add('mobile')
+  }
   // get bins
   var n = 1
   while (bins < canvasWidth / pixelSize) {

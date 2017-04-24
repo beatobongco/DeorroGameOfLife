@@ -1,5 +1,6 @@
 body {
   overflow: hidden;
+  max-width: 100%;
   margin: 0;
   background-color: #000;
   color: #fff;
@@ -9,6 +10,12 @@ canvas {
   cursor: pointer;
   display: block;
   margin: 100px auto 0;
+}
+canvas.mobile {
+  margin-top: 100px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
 }
 p {
   text-align: center;
