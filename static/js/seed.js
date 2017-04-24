@@ -6,6 +6,70 @@ function _plot(x, y, color) {
   }
 }
 
+function genWordTurn(x, y) {
+  function rplot(i, j) {
+    _plot(x + i, y + j)
+  }
+  //T
+  rplot(0, 0)
+  rplot(1, 0)
+  rplot(2, 0)
+
+  rplot(1, 1)
+  rplot(1, 2)
+  rplot(1, 3)
+  rplot(1, 4)
+
+  //U
+  rplot(4, 0)
+  rplot(4, 1)
+  rplot(4, 2)
+  rplot(4, 3)
+
+  rplot(5, 4)
+  rplot(6, 4)
+  rplot(7, 4)
+  rplot(7, 3)
+  rplot(7, 2)
+  rplot(7, 1)
+  rplot(7, 0)
+
+  //R
+  rplot(9, 0)
+  rplot(10, 0)
+  rplot(11, 0)
+
+  rplot(9, 1)
+  rplot(12, 1)
+
+  rplot(9, 2)
+  rplot(10, 2)
+  rplot(11, 2)
+  rplot(12, 2)
+
+  rplot(9, 3)
+  rplot(11, 3)
+
+  rplot(9, 4)
+  rplot(12, 4)
+
+  //N
+  rplot(14, 0)
+  rplot(14, 1)
+  rplot(14, 2)
+  rplot(14, 3)
+  rplot(14, 4)
+
+  rplot(15, 1)
+  rplot(16, 2)
+
+  rplot(17, 0)
+  rplot(17, 1)
+  rplot(17, 2)
+  rplot(17, 3)
+  rplot(17, 4)
+}
+
 function seedLife() {
   function rplot(x, y) {
     _plot(x + 1, y)
@@ -115,64 +179,7 @@ function seedLife() {
   rplot(27, 5)
   rplot(28, 5)
 
-  //T
-  rplot(12, 8)
-  rplot(13, 8)
-  rplot(14, 8)
-
-  rplot(13, 9)
-  rplot(13, 10)
-  rplot(13, 11)
-  rplot(13, 12)
-
-  //U
-  rplot(16, 8)
-  rplot(16, 9)
-  rplot(16, 10)
-  rplot(16, 11)
-
-  rplot(17, 12)
-  rplot(18, 12)
-  rplot(19, 12)
-  rplot(19, 11)
-  rplot(19, 10)
-  rplot(19, 9)
-  rplot(19, 8)
-
-  //R
-  rplot(21, 8)
-  rplot(22, 8)
-  rplot(23, 8)
-
-  rplot(21, 9)
-  rplot(24, 9)
-
-  rplot(21, 10)
-  rplot(22, 10)
-  rplot(23, 10)
-  rplot(24, 10)
-
-  rplot(21, 11)
-  rplot(23, 11)
-
-  rplot(21, 12)
-  rplot(24, 12)
-
-  //N
-  rplot(26, 8)
-  rplot(26, 9)
-  rplot(26, 10)
-  rplot(26, 11)
-  rplot(26, 12)
-
-  rplot(27, 9)
-  rplot(28, 10)
-
-  rplot(29, 8)
-  rplot(29, 9)
-  rplot(29, 10)
-  rplot(29, 11)
-  rplot(29, 12)
+  genWordTurn(13, 8)
 
   //B
   rplot(11, 15)
