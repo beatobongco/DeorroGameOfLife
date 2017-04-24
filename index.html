@@ -118,10 +118,10 @@ Loading 2MB of sweet Deorro goodness... Please wait :)
   }
 
   var events = {
-    38: function() {
+    39: function() {
       initializeLifeArray()
       generateClock(30, 1)
-      delete events[38]
+      delete events[39]
     },
     86: function() {
       initializeLifeArray()
@@ -145,8 +145,10 @@ Loading 2MB of sweet Deorro goodness... Please wait :)
   }
 
   function setFrameRateFromLevel(level) {
-    level = 5 + Math.round(level * 55)
-    frameRate(level)
+    // set framerate according to current sound levels
+    // in multiples of 3
+    rate = 6 + Math.ceil(level * 54 / 3.0) * 3
+    frameRate(rate)
   }
 
   function draw() {
