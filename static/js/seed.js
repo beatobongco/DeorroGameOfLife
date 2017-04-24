@@ -1,6 +1,6 @@
 function _plot(x, y, color) {
   try {
-    lifeArray[y][x][0] = true
+    lifeArray[y][x][0] = 1
   } catch (err) {
     //pass
   }
@@ -488,7 +488,7 @@ function generateGalaxy(x, y) {
 
 function generateEnding() {
   initializeLifeArray()
-  generateGalaxy(30, 5)
+  //generateGalaxy(30, 5)
   // lifeArray[0][0].isAlive = true
   // lifeArray[0][lifeArray[0].length - 1].isAlive = true
 
