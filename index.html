@@ -3,26 +3,17 @@
 <head>
   <title>Deorro's Game of Life</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
-  <style type="text/css">
-    body {
-      overflow: hidden;
-      margin: 0;
-      background-color: #000;
-      color: #fff;
-    }
-    canvas {
-      cursor: pointer;
-      display: block;
-      margin: 100px auto;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="static/css/main.css">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.sound.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
   <script type="text/javascript" src="static/js/seed.js"></script>
 </head>
 <body>
-<div id="p5_loading" class="loadingclass">Loading some sweet Deorro goodness...</div>
+<div id="p5_loading" class="loadingclass">
+<div class="loader"></div>
+Loading 2MB of sweet Deorro goodness... Please wait :)
+</div>
 <script type="text/javascript">
   var song, analyzer, lifeArray
   var firstRun = true
