@@ -1,4 +1,4 @@
-var song, analyzer, lifeArray
+var song, analyzer, lifeArray, cnv
 var firstRun = true
 var pixelSize = 10
 var bins = 0
@@ -52,6 +52,7 @@ function preload() {
 }
 
 function setup() {
+  document.querySelector('.hidden').classList.remove('hidden')
   // get bins
   var n = 1
   while (bins < canvasWidth / pixelSize) {
@@ -59,12 +60,17 @@ function setup() {
     n++
   }
   fft = new p5.FFT(0.8, bins)
+
   analyzer = new p5.Amplitude()
   analyzer.setInput(song)
-  createCanvas(canvasWidth, canvasHeight)
+
+  cnv = createCanvas(canvasWidth, canvasHeight)
+  cnv.parent('sketch-holder')
+
   stroke(bgColor)
   frameRate(fps)
   song.onended(generateEnding)
+
   initializeLifeArray()
   seedLife()
   noLoop()
