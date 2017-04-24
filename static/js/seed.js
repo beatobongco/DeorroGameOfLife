@@ -72,7 +72,7 @@ function genWordTurn(x, y) {
 
 function seedLife() {
   function rplot(x, y) {
-    _plot(x + 1, y)
+    _plot(x + 10, y)
   }
   //D
   rplot(1, 1)
@@ -179,7 +179,7 @@ function seedLife() {
   rplot(27, 5)
   rplot(28, 5)
 
-  genWordTurn(13, 8)
+  genWordTurn(22, 8)
 
   //B
   rplot(11, 15)
@@ -302,7 +302,7 @@ function seedLife() {
   rplot(29, 26)
 
   //PULSAR
-  generateClock(55, 1)
+  generateClock(45, 1)
 }
 
 function generateUpGlider(x, y) {
@@ -494,18 +494,10 @@ function generateGalaxy(x, y) {
 }
 
 function generateEnding() {
-  initializeLifeArray()
-  //generateGalaxy(30, 5)
-  // lifeArray[0][0].isAlive = true
-  // lifeArray[0][lifeArray[0].length - 1].isAlive = true
-
-  // lifeArray[lifeArray.length - 2][0].isAlive = true
-  // lifeArray[lifeArray.length - 2][lifeArray[0].length - 1].isAlive = true
-
-  // for (var x = 2; x < lifeArray[0].length - 2; x++) {
-  //   lifeArray[1][x].isAlive = true
-  //   //lifeArray[2][x].isAlive = true
-  //   lifeArray[lifeArray.length - 3][x].isAlive = true
-  //   //lifeArray[lifeArray.length - 4][x].isAlive = true
-  // }
+  if (Math.round(song.currentTime()) >= Math.round(song.duration()) - 2) {
+    firstRun = true
+    initializeLifeArray()
+    seedLife()
+    noLoop()
+  }
 }

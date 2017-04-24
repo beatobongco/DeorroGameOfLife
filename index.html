@@ -29,10 +29,10 @@
   var bins = 0
   var aliveColor = '#ff0000'
   var canvasWidth = 720
-  var canvasHeight = 300
+  var canvasHeight = 360
   var bgColor = '#000'
   var soundbarColor = '#fff'
-  var fps = 30
+  var fps = 24
 
   function initializeLifeArray() {
     //creates initial lifeArray
@@ -78,11 +78,6 @@
     return alive
   }
 
-  function reset() {
-    initializeLifeArray()
-    seedLife()
-  }
-
   function preload() {
     song = loadSound('static/audio/deorro.mp3')
   }
@@ -99,7 +94,8 @@
     stroke(bgColor)
     frameRate(fps)
     song.onended(generateEnding)
-    reset()
+    initializeLifeArray()
+    seedLife()
     noLoop()
   }
 
@@ -144,12 +140,12 @@
       generateClock(30, 1)
       delete events[86]
     },
-    152: function() {
+    151: function() {
       initializeLifeArray()
-      generateGalaxy(15, 4)
-      generateGalaxy(30, 4)
-      generateGalaxy(45, 4)
-      delete events[152]
+      generateGalaxy(8, 3)
+      generateGalaxy(30, 3)
+      generateGalaxy(52, 3)
+      delete events[151]
     },
   }
 
@@ -211,7 +207,7 @@
   }
 
   function togglePlay() {
-    if (song.isPlaying() ) {
+    if (song.isPlaying()) {
       song.pause()
       noLoop()
     } else {
