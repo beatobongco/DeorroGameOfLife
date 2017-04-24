@@ -8,11 +8,12 @@
       overflow: hidden;
       margin: 0;
       background-color: #000;
+      color: #fff;
     }
     canvas {
       cursor: pointer;
       display: block;
-      margin: 50px auto;
+      margin: 100px auto;
     }
   </style>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
@@ -38,16 +39,9 @@
     for (var y = 0; y < canvasHeight; y+=pixelSize) {
       var _array = []
       for (var x = 0; x < canvasWidth; x+=pixelSize) {
-        var isAlive = false//random() >= 0.5
-        //var _color = colors[Math.floor(random() * colors.length)]
-        // if (isAlive) {
-        //   fill.apply(this, _color)
-        // } else {
-        //   fill(bgColor)
-        // }
-        //rect(x, y, pixelSize, pixelSize)
+        var isAlive = false
         _array.push({
-          isAlive: isAlive,
+          isAlive: false,
           isSoundbar: false,
           x: x,
           y: y,
@@ -89,9 +83,6 @@
       n++
     }
     fft = new p5.FFT(0.8, bins)
-
-    song.jump(120)
-    song.pause()
 
     createCanvas(canvasWidth, canvasHeight)
     stroke(bgColor)
@@ -181,13 +172,23 @@
     }
   }
 
-  function mousePressed() {
+  function togglePlay() {
     if (song.isPlaying() ) {
       song.pause()
       noLoop()
     } else {
       song.play()
       loop()
+    }
+  }
+
+  function mousePressed() {
+    togglePlay()
+  }
+
+  function keyPressed() {
+    if (keyCode === 32) {
+      togglePlay()
     }
   }
 </script>
