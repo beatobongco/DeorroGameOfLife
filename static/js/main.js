@@ -52,12 +52,12 @@ function preload() {
 }
 
 function setup() {
-  document.querySelector('.hidden').classList.remove('hidden')
+  document.getElementById('instructions').classList.remove('hidden')
+
   if (windowWidth < canvasWidth) {
     canvasWidth = 300
     canvasHeight = 150
     pixelSize = 5
-    document.querySelector('canvas').classList.add('mobile')
   }
   // get bins
   var n = 1
@@ -208,6 +208,7 @@ function togglePlay() {
 }
 
 function play() {
+  document.getElementById('instructions').classList.add('hidden')
   if (!song.isPlaying()) {
     song.play()
     loop()

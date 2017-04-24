@@ -494,6 +494,7 @@ function generateGalaxy(x, y) {
 }
 
 function generateEnding() {
+  document.getElementById('instructions').classList.remove('hidden')
   if (Math.round(song.currentTime()) >= Math.round(song.duration()) - 2) {
     firstRun = true
     initializeLifeArray()
