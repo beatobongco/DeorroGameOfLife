@@ -23,30 +23,26 @@
 </head>
 <body>
 <script type="text/javascript">
-  var song, analyzer
+  var song, analyzer, lifeArray
   var firstRun = true
-  var lifeArray = []
   var pixelSize = 10
   var bins = 0
-  var colors = [[255, 0, 0]]
+  var aliveColor = '#ff0000'
   var canvasWidth = 720
   var canvasHeight = 300
   var bgColor = '#000'
-  var soundbarColor = [255,255,255]
+  var soundbarColor = '#fff'
+  var fps = 30
 
-  function drawGrid() {
-    //stroke(189, 195, 199)
+  function initializeLifeArray() {
+    //creates initial lifeArray
+    lifeArray = []
     for (var y = 0; y < canvasHeight; y+=pixelSize) {
       var _array = []
       for (var x = 0; x < canvasWidth; x+=pixelSize) {
-        var isAlive = false
-        _array.push({
-          isAlive: false,
-          isSoundbar: false,
-          x: x,
-          y: y,
-          color: colors[0]
-        })
+        var int8 = new Int8Array(2)
+        // [isAlive, isSoundbar]
+        _array.push(int8)
       }
       lifeArray.push(_array)
     }
@@ -59,24 +55,31 @@
                  [x+1, y+1], [x-1, y-1], [x+1, y-1], [x-1, y+1]]
 
     for (var i = 0; i < neighbors.length; i++) {
-      try {
-        if (lifeArray[neighbors[i][1]][neighbors[i][0]].isAlive) {
-          alive+=1
-        }
-      } catch (err) {
-        // pass
+      var _x = neighbors[i][0]
+      var _y = neighbors[i][1]
+
+      // wrap around x only
+      if (_x < 0) {
+        _x = lifeArray[0].length - 1
+      } else if (_x >= lifeArray[0].length) {
+        _x = 0
+      }
+
+      if (_y > 0 && _y < lifeArray.length && lifeArray[_y][_x][0]) {
+        alive++
       }
     }
     return alive
   }
 
-  function preload() {
-    song = loadSound('static/audio/deorro.mp3')
+  function reset() {
+    initializeLifeArray()
+    //seedLife()
+    generateGalaxy(0, 5)
   }
 
-  function reset() {
-    drawGrid()
-    seedLife()
+  function preload() {
+    song = loadSound('static/audio/deorro.mp3')
   }
 
   function setup() {
@@ -88,44 +91,46 @@
       n++
     }
     fft = new p5.FFT(0.8, bins)
-    song.onended(reset)
     createCanvas(canvasWidth, canvasHeight)
     stroke(bgColor)
-    frameRate(24)
+    frameRate(fps)
+    song.onended(generateEnding)
     reset()
     noLoop()
   }
 
-  function draw() {
-    background("#000")
+  function drawWaveform() {
     var waveform = fft.waveform()
     var bottomline = lifeArray.length - 1
+    var maxAmp = Math.round(lifeArray[bottomline].length / 4)
 
     for (var i = 0; i < lifeArray[bottomline].length; i++) {
-      var maxAmp = Math.round(lifeArray[bottomline].length / 4)
       var amplitude = waveform[i] * maxAmp
-
-      if (waveform[i] > .9) {
-        // generate some cool stuff here
-        generateUpGlider(i + 2, bottomline - j - 2)
-      }
 
       if (amplitude < 0) {
         continue
       }
 
+      if (waveform[i] > .9) {
+        // generate some cool stuff here
+        generateUpGlider(i, bottomline - j - 3)
+      }
+
       for (var j = 0; j <= maxAmp; j++) {
         if (amplitude >= j) {
-          lifeArray[bottomline - j][i].color = soundbarColor
-          lifeArray[bottomline - j][i].isSoundbar = true
-          lifeArray[bottomline - j][i].isAlive = true
-        } else if (lifeArray[bottomline - j][i].isSoundbar) {
-          lifeArray[bottomline - j][i].color = colors[0]
-          lifeArray[bottomline - j][i].isSoundbar = false
-          lifeArray[bottomline - j][i].isAlive = false
+          lifeArray[bottomline - j][i][1] = true
+          lifeArray[bottomline - j][i][0] = true
+        } else if (lifeArray[bottomline - j][i][1]) {
+          // leave normal cells alone, deactivate soundbars
+          lifeArray[bottomline - j][i][1] = false
+          lifeArray[bottomline - j][i][0] = false
         }
       }
     }
+  }
+
+  function draw() {
+    drawWaveform()
 
     if (firstRun) {
       firstRun = false
@@ -139,19 +144,18 @@
     for (var y = 0; y < lifeArray.length; y++) {
       for (var x = 0; x < lifeArray[y].length; x++) {
         var cell = lifeArray[y][x]
-        var liveNeighbors = checkNeighbors(x, y)
-        var chance = false //Math.random() < .001
-        if (cell.isSoundbar) {
+        //skip soundbars
+        if (cell[1]) {
           continue
         }
-        if (cell.isAlive) {
-          if (!(liveNeighbors === 2 || liveNeighbors === 3 || chance)) {
-            _lifeArray[y][x].isAlive = false
+        var liveNeighbors = checkNeighbors(x, y)
+        if (cell[0]) {
+          if (!(liveNeighbors === 2 || liveNeighbors === 3)) {
+            _lifeArray[y][x][0] = false
           }
         } else {
-          if (liveNeighbors === 3 || chance) {
-            _lifeArray[y][x].isAlive = true
-            _lifeArray[y][x].color = colors[Math.floor(random() * colors.length)]
+          if (liveNeighbors === 3) {
+            _lifeArray[y][x][0] = true
           }
         }
       }
@@ -165,12 +169,12 @@
     for (var y = 0; y < lifeArray.length; y++) {
       for (var x = 0; x < lifeArray[y].length; x++) {
         var cell = lifeArray[y][x]
-        if (cell.isAlive) {
-          fill.apply(this, cell.color)
+        if (cell[0]) {
+          fill(cell[1] ? soundbarColor : aliveColor)
         } else {
           fill(bgColor)
         }
-        rect(cell.x, cell.y, pixelSize, pixelSize)
+        rect(x * pixelSize, y * pixelSize, pixelSize, pixelSize)
       }
     }
   }

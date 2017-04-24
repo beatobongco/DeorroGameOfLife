@@ -1,6 +1,6 @@
 function _plot(x, y, color) {
   try {
-    lifeArray[y][x].isAlive = true
+    lifeArray[y][x][0] = true
   } catch (err) {
     //pass
   }
@@ -295,7 +295,7 @@ function seedLife() {
   rplot(29, 26)
 
   //PULSAR
-  generatePulsar(55, 1)
+  generateClock(55, 1)
 }
 
 function generateUpGlider(x, y) {
@@ -378,5 +378,127 @@ function generatePulsar(x, y) {
   rplot(8, 12)
   rplot(9, 12)
   rplot(10, 12)
+}
 
+function generateClock(x, y) {
+  function rplot(i, j) {
+    _plot(x + i, y + j)
+  }
+  rplot(6, 0)
+  rplot(7, 0)
+  rplot(6, 1)
+  rplot(7, 1)
+
+  rplot(0, 4)
+  rplot(1, 4)
+  rplot(0, 5)
+  rplot(1, 5)
+
+  rplot(10, 6)
+  rplot(11, 6)
+  rplot(10, 7)
+  rplot(11, 7)
+
+  rplot(4, 10)
+  rplot(5, 10)
+  rplot(4, 11)
+  rplot(5, 11)
+
+  rplot(4, 3)
+  rplot(5, 3)
+  rplot(6, 3)
+  rplot(7, 3)
+
+  rplot(4, 8)
+  rplot(5, 8)
+  rplot(6, 8)
+  rplot(7, 8)
+
+  rplot(3, 4)
+  rplot(3, 5)
+  rplot(3, 6)
+  rplot(3, 7)
+
+  rplot(8, 4)
+  rplot(8, 5)
+  rplot(8, 6)
+  rplot(8, 7)
+
+  rplot(4, 5)
+  rplot(5, 6)
+  rplot(6, 6)
+}
+
+function generateGalaxy(x, y) {
+  function rplot(i, j) {
+    _plot(x + i, y + j)
+  }
+  rplot(0, 0)
+  rplot(1, 0)
+  rplot(2, 0)
+  rplot(3, 0)
+  rplot(4, 0)
+  rplot(5, 0)
+  rplot(0, 1)
+  rplot(1, 1)
+  rplot(2, 1)
+  rplot(3, 1)
+  rplot(4, 1)
+  rplot(5, 1)
+
+  rplot(3, 7)
+  rplot(4, 7)
+  rplot(5, 7)
+  rplot(6, 7)
+  rplot(7, 7)
+  rplot(8, 7)
+  rplot(3, 8)
+  rplot(4, 8)
+  rplot(5, 8)
+  rplot(6, 8)
+  rplot(7, 8)
+  rplot(8, 8)
+
+  rplot(7, 0)
+  rplot(7, 1)
+  rplot(7, 2)
+  rplot(7, 3)
+  rplot(7, 4)
+  rplot(7, 5)
+  rplot(8, 0)
+  rplot(8, 1)
+  rplot(8, 2)
+  rplot(8, 3)
+  rplot(8, 4)
+  rplot(8, 5)
+
+  rplot(0, 3)
+  rplot(0, 4)
+  rplot(0, 5)
+  rplot(0, 6)
+  rplot(0, 7)
+  rplot(0, 8)
+  rplot(1, 3)
+  rplot(1, 4)
+  rplot(1, 5)
+  rplot(1, 6)
+  rplot(1, 7)
+  rplot(1, 8)
+}
+
+function generateEnding() {
+  initializeLifeArray()
+  generateGalaxy(30, 5)
+  // lifeArray[0][0].isAlive = true
+  // lifeArray[0][lifeArray[0].length - 1].isAlive = true
+
+  // lifeArray[lifeArray.length - 2][0].isAlive = true
+  // lifeArray[lifeArray.length - 2][lifeArray[0].length - 1].isAlive = true
+
+  // for (var x = 2; x < lifeArray[0].length - 2; x++) {
+  //   lifeArray[1][x].isAlive = true
+  //   //lifeArray[2][x].isAlive = true
+  //   lifeArray[lifeArray.length - 3][x].isAlive = true
+  //   //lifeArray[lifeArray.length - 4][x].isAlive = true
+  // }
 }
