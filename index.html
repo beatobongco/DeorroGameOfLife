@@ -9,11 +9,11 @@
   <meta property="og:description" content="Audio visualization of Deorro's Turn Back Time interacting with Conway's Game of Life." />
   <meta name="description" content="Audio visualization of Deorro's Turn Back Time interacting with Conway's Game of Life.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
   <link rel="stylesheet" type="text/css" href="static/css/main.css">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.sound.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/addons/p5.sound.min.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -33,7 +33,20 @@
 <div class="sketch"></div>
 <div id="sketch-holder"></div>
 <p id="instructions" class="hidden">SPACEBAR to play / pause. TAP to play on mobile.</p>
-<script type="text/javascript" src="static/js/seed.js"></script>
+<div id="about">
+  <h3>What is this?</h3>
+  <p>A "music video" using code. It's an audio-visualization that interacts with Conway's Game of Life.</p>
+  <p>Conway's Game of Life is zero-player "game" of cells (in this case pixels) that live, reproduce and die based on their neighbors.</p>
+  <ul>
+    <li>Any live cell with 2-3 neighbors lives.</li>
+    <li>Any live cell with more than 3 neighbors dies (overpopulation).</li>
+    <li>Any live cell with less than 2 neighbors dies (underpopulation).</li>
+    <li>Any dead cell with exactly 3 neighbors becomes a live cell (reproduction).</li>
+  </ul>
+  <p>The beat of the music controls the speed of the animation and the frequency bars produce live cells. For the drops in the track you'll observe some specially created lifeforms. :)</p>
+</div>
+<script src="static/js/util.js"></script>
+<script src="static/js/seed.js"></script>
 <script src="static/js/main.js"></script>
 </body>
 </html>

@@ -1,18 +1,26 @@
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   max-width: 100%;
   margin: 0;
   background-color: #000;
   color: #fff;
-  font-family: sans-serif;
+  font-family: 'VT323', monospace;
 }
 canvas {
   cursor: pointer;
   display: block;
   margin: 100px auto 0;
 }
-p {
+#p5_loading p,
+#instructions {
   text-align: center;
+  font-size: 1.3rem;
+}
+#about {
+  max-width: 100%;
+  width: 720px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 .hidden {
   display: none;

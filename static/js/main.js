@@ -52,7 +52,7 @@ function preload() {
 }
 
 function setup() {
-  document.getElementById('instructions').classList.remove('hidden')
+  show('#instructions')
 
   if (windowWidth < canvasWidth) {
     canvasWidth = 300
@@ -159,7 +159,7 @@ function draw() {
   }
 
   // check state change
-  _lifeArray = _.cloneDeep(lifeArray)
+  _lifeArray = lifeArray.slice()
 
   for (var y = 0; y < lifeArray.length; y++) {
     for (var x = 0; x < lifeArray[y].length; x++) {
@@ -199,19 +199,18 @@ function drawGeneration() {
 
 function togglePlay() {
   if (song.isPlaying()) {
-    document.getElementById('instructions').classList.remove('hidden')
+    show('#instructions')
     song.pause()
     noLoop()
   } else {
-    document.getElementById('instructions').classList.add('hidden')
-    song.play()
-    loop()
+    play()
   }
 }
 
 function play() {
-  document.getElementById('instructions').classList.add('hidden')
   if (!song.isPlaying()) {
+    hide('#about')
+    hide('#instructions')
     song.play()
     loop()
   }
