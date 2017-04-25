@@ -159,7 +159,7 @@ function draw() {
   }
 
   // check state change
-  _lifeArray = lifeArray.slice()
+  _lifeArray = JSON.parse(JSON.stringify(lifeArray))
 
   for (var y = 0; y < lifeArray.length; y++) {
     for (var x = 0; x < lifeArray[y].length; x++) {
